@@ -1,4 +1,10 @@
-import React, { useState } from 'react';
+/**
+ * @Author: Your name
+ * @Date:   2023-04-26 16:42:42
+ * @Last Modified by:   Your name
+ * @Last Modified time: 2023-08-23 08:23:31
+ */
+import React, { useState } from 'react'; 
 import DataInput from './DataInput';
 import '../styles/styles.css';
 import FileSaver from 'file-saver';
@@ -14,6 +20,10 @@ const Content = () => {
     const [dist_3, setDist_3] = useState('');
     const [row, setRow] = useState('');
     const [column, setColumn] = useState('');
+    const [SRRow, setSRRow] = useState('');
+    const [SRColumn, setSRColumn] = useState('');
+    const [SRRowDist, setSRRowDist] = useState('');
+    const [SRColDist, setSRColDist] = useState('');
     const [fileName, setFileName] = useState('');
 
     const handleChange = (input) => {
@@ -48,6 +58,18 @@ const Content = () => {
             case "column":
                 setColumn(input.value);
                 break;
+            case "SRRow":
+                setSRRow(input.value);
+                break;
+            case "SRColumn":
+                setSRColumn(input.value);
+                break;
+            case "SRRowDist":
+                setSRRowDist(input.value);
+                break;
+            case "SRColDist":
+                setSRColDist(input.value);
+                break;
             default:
                 console.log('input err');
         }
@@ -59,21 +81,23 @@ const Content = () => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        if(!zcX || !zcY || !g93X || !g93Y || !drillDia || !dist_1 || !dist_2 || !dist_3 || !row || !column){
+        if(!zcX || !zcY || !g93X || !g93Y || !drillDia || !dist_1 || !dist_2 || !dist_3 || !row || !column || !SRRow || !SRColumn || !SRRowDist || !SRColDist){
             alert('Missing parameters, all fields are required');
             return;
         }
         let content = 
             'include("simple.js");' + 
+            `for(gpR = 0; gpR < ${SRRow}; gpR++){` +
+            `for(gpC = 0; gpC < ${SRColumn}; gpC++){` +
             `for(r=0;r<${row};r++){` +
             `for(c=0;c<${column}; c++){` +
             'for(i=0;i<5;i++){' +
             'for(j=0;j<5;j++){' +
-            `addCircle(${dist_2}*j+c*${dist_3}+${Number(zcX)+Number(g93X)},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)},${drillDia/2});` +
-            `addCircle(${dist_2}*j+c*${dist_3}+${Number(dist_1)+Number(zcX)+Number(g93X)},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)},${drillDia/2});` +
-            `addCircle(${dist_2}*j+c*${dist_3}+${Number(dist_1)+Number(zcX)+Number(g93X)},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)},${drillDia/2});` +
-            `addCircle(${dist_2}*j+c*${dist_3}+${Number(zcX)+Number(g93X)},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)},${drillDia/2});` +
-            '}}}}';
+            `addCircle(${dist_2}*j+c*${dist_3}+${Number(zcX)+Number(g93X)}+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(${dist_2}*j+c*${dist_3}+${Number(dist_1)+Number(zcX)+Number(g93X)}+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(${dist_2}*j+c*${dist_3}+${Number(dist_1)+Number(zcX)+Number(g93X)}+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(${dist_2}*j+c*${dist_3}+${Number(zcX)+Number(g93X)}+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            '}}}}}}';
         let blob = new Blob([content], {
             type: "text/plain;charset=utf-8"
         });
@@ -98,6 +122,8 @@ const Content = () => {
                 dist_3={dist_3}
                 row={row}
                 column={column}
+                SRRow={SRRow}
+                SRColumn={SRColumn}
             />
             <input className='fileName' name='fileName' type='text' placeholder={'-- Input File Name Here --'} onChange={handleFileNameChange}/>
             <button type='submit' onClick={handleClick}>Generate Program</button>
