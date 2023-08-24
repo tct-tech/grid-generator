@@ -1,4 +1,10 @@
-*, *::after, *::before{
+/**
+ * @Author: Your name
+ * @Date:   2023-04-26 16:42:42
+ * @Last Modified by:   Your name
+ * @Last Modified time: 2023-08-24 15:22:27
+ */
+*::after, *::before{ 
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -26,6 +32,16 @@
 .inputs{
     display: flex;
     flex-direction: column;
+}
+
+.radio{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.radio>input{
+    margin-top: 0.4rem;
 }
 
 .title{
@@ -64,3 +80,4 @@ button{
     text-align: center;
     font-weight: bold;
 }
+

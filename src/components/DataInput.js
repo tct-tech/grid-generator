@@ -2,7 +2,7 @@
  * @Author: Your name
  * @Date:   2023-04-26 16:42:42
  * @Last Modified by:   Your name
- * @Last Modified time: 2023-08-23 08:24:03
+ * @Last Modified time: 2023-08-24 15:22:05
  */
 import React from 'react'; 
 import '../styles/styles.css';
@@ -16,6 +16,11 @@ const DataInput = (props) => {
     return(
         <form className="component">
             <div className="sub-component">
+                <div className ="title">Drill Diameter: </div>
+                    <div className="inputs">
+                        <label htmlFor='drillDiaInput'>Drill Diameter: </label>
+                        <input id='drillDiaInput' name='drillDia' type='number' value={props.drillDia} onChange={handleChange}/>
+                    </div>
                 <div className="title">Zero Corrections: </div>
                     <div className="inputs">
                         <label htmlFor='zcXInput'>X coordinate: </label>
@@ -30,10 +35,16 @@ const DataInput = (props) => {
                         <label htmlFor='g93YInput'>G93 Y coordinate: </label>
                         <input id='g93YInput' name='g93Y' type='number' value={props.g93Y} onChange={handleChange}/>
                     </div>
-                <div className="title">Drill Diameter: </div>
-                    <div className="inputs">
-                        <label htmlFor='drillDiaInput'>Drill Diameter: </label>
-                        <input id='drillDiaInput' name='drillDia' type='number' value={props.drillDia} onChange={handleChange}/>
+                <div className="title">Entry/Exit: </div>
+                    <div>
+                        <div className='radio'>
+                            <input id='entryInput' name='entryExit' type='radio' value={'entry'} onChange={handleChange}/>
+                            <label htmlFor='entryInput'>Entry (Version 1) </label>
+                        </div>
+                        <div className='radio'>
+                            <input id='exitInput' name='entryExit' type='radio' value={'exit'} onChange={handleChange}/>
+                            <label htmlFor='exitInput'>Exit (Version 4) </label>
+                        </div>
                     </div>
             </div>
             <div className="sub-component">

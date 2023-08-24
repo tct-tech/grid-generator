@@ -2,7 +2,7 @@
  * @Author: Your name
  * @Date:   2023-04-26 16:42:42
  * @Last Modified by:   Your name
- * @Last Modified time: 2023-08-23 08:23:31
+ * @Last Modified time: 2023-08-24 15:22:46
  */
 import React, { useState } from 'react'; 
 import DataInput from './DataInput';
@@ -25,6 +25,8 @@ const Content = () => {
     const [SRRowDist, setSRRowDist] = useState('');
     const [SRColDist, setSRColDist] = useState('');
     const [fileName, setFileName] = useState('');
+    const [entry, setEntry] = useState('');
+    const [exit, setExit] = useState('');
 
     const handleChange = (input) => {
         switch (input.name){
@@ -70,6 +72,16 @@ const Content = () => {
             case "SRColDist":
                 setSRColDist(input.value);
                 break;
+            case "entryExit":
+                if(input.value === 'entry'){
+                    setEntry('entry');
+                    setExit('');
+                    break;
+                }else{
+                    setExit('exit');
+                    setEntry('');
+                    break;
+                }
             default:
                 console.log('input err');
         }
@@ -81,11 +93,14 @@ const Content = () => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        if(!zcX || !zcY || !g93X || !g93Y || !drillDia || !dist_1 || !dist_2 || !dist_3 || !row || !column || !SRRow || !SRColumn || !SRRowDist || !SRColDist){
+        if((!zcX || !zcY || !g93X || !g93Y || !drillDia || !dist_1 || !dist_2 || !dist_3 || !row || !column || !SRRow || !SRColumn || !SRRowDist || !SRColDist) || (!entry && !exit)){
             alert('Missing parameters, all fields are required');
             return;
         }
-        let content = 
+
+        if(entry){
+            // console.log('ENTRY (Version1)');
+            let content = 
             'include("simple.js");' + 
             `for(gpR = 0; gpR < ${SRRow}; gpR++){` +
             `for(gpC = 0; gpC < ${SRColumn}; gpC++){` +
@@ -93,19 +108,41 @@ const Content = () => {
             `for(c=0;c<${column}; c++){` +
             'for(i=0;i<5;i++){' +
             'for(j=0;j<5;j++){' +
-            `addCircle(${dist_2}*j+c*${dist_3}+${Number(zcX)+Number(g93X)}+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
-            `addCircle(${dist_2}*j+c*${dist_3}+${Number(dist_1)+Number(zcX)+Number(g93X)}+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
-            `addCircle(${dist_2}*j+c*${dist_3}+${Number(dist_1)+Number(zcX)+Number(g93X)}+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
-            `addCircle(${dist_2}*j+c*${dist_3}+${Number(zcX)+Number(g93X)}+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(${dist_2}*j+c*${dist_3}+(${Number(zcX)+Number(g93X)})+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(${dist_2}*j+c*${dist_3}+(${Number(dist_1)+Number(zcX)+Number(g93X)})+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(${dist_2}*j+c*${dist_3}+(${Number(dist_1)+Number(zcX)+Number(g93X)})+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(${dist_2}*j+c*${dist_3}+(${Number(zcX)+Number(g93X)})+gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
             '}}}}}}';
-        let blob = new Blob([content], {
-            type: "text/plain;charset=utf-8"
-        });
+            let blob = new Blob([content], {
+                type: "text/plain;charset=utf-8"
+            });
 
-        console.log(fileName);
-        let saveFileName = fileName ? fileName + '.js' : 'program.js'
-        
-        FileSaver.saveAs(blob, saveFileName);
+            let saveFileName = fileName ? fileName + '.js' : 'program.js'
+            
+            FileSaver.saveAs(blob, saveFileName);
+        }else{
+            // console.log('EXIT (Version4)');
+            let content = 
+            'include("simple.js");' + 
+            `for(gpR = 0; gpR < ${SRRow}; gpR++){` +
+            `for(gpC = 0; gpC < ${SRColumn}; gpC++){` +
+            `for(r=0;r<${row};r++){` +
+            `for(c=0;c<${column}; c++){` +
+            'for(i=0;i<5;i++){' +
+            'for(j=0;j<5;j++){' +
+            `addCircle(-${dist_2}*j-c*${dist_3}-(${Number(zcX)+Number(g93X)})-gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(-${dist_2}*j-c*${dist_3}-(${Number(dist_1)+Number(zcX)+Number(g93X)})-gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(-${dist_2}*j-c*${dist_3}-(${Number(dist_1)+Number(zcX)+Number(g93X)})-gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            `addCircle(-${dist_2}*j-c*${dist_3}-(${Number(zcX)+Number(g93X)})-gpC*${SRColDist},${dist_2}*i+r*${dist_3}+${Number(dist_1)+Number(zcY)+Number(g93Y)}+gpR*${SRRowDist},${drillDia/2});` +
+            '}}}}}}';
+            let blob = new Blob([content], {
+                type: "text/plain;charset=utf-8"
+            });
+
+            let saveFileName = fileName ? fileName + '.js' : 'program.js'
+            
+            FileSaver.saveAs(blob, saveFileName);
+        }
     }
 
     return(
@@ -124,6 +161,8 @@ const Content = () => {
                 column={column}
                 SRRow={SRRow}
                 SRColumn={SRColumn}
+                entry={entry}
+                exit={exit}
             />
             <input className='fileName' name='fileName' type='text' placeholder={'-- Input File Name Here --'} onChange={handleFileNameChange}/>
             <button type='submit' onClick={handleClick}>Generate Program</button>
@@ -132,3 +171,4 @@ const Content = () => {
 }
 
 export default Content;
+
