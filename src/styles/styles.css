@@ -2,9 +2,9 @@
  * @Author: Your name
  * @Date:   2023-04-26 16:42:42
  * @Last Modified by:   Your name
- * @Last Modified time: 2023-08-24 15:22:27
+ * @Last Modified time: 2023-08-25 15:40:57
  */
-*::after, *::before{ 
+ *, *::after, *::before{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -13,7 +13,13 @@
 }
 
 .header{
-    font-size: 3rem;
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+}
+
+.headerText{
+    font-size: 2.5rem;
     text-align: center;
     padding: 1.5rem;
 }
