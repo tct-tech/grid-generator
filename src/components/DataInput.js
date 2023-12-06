@@ -2,9 +2,9 @@
  * @Author: Your name
  * @Date:   2023-04-26 16:42:42
  * @Last Modified by:   Your name
- * @Last Modified time: 2023-08-24 15:53:29
+ * @Last Modified time: 2023-12-06 08:48:03
  */
-import React from 'react'; 
+import React from 'react';
 import '../styles/styles.css';
 
 const DataInput = (props) => {
@@ -48,32 +48,25 @@ const DataInput = (props) => {
                     </div>
             </div>
             <div className="sub-component">
-                <div className="title">Spacings: </div>
+                <div className="title">Base Pattern: </div>
                     <div className="inputs">
-                        <label htmlFor='dist_1Input'>First 4 holes: </label>
+                        <label htmlFor='dist_1Input'>Spacing for 4-Hole Pattern: </label>
                         <input id='dist_1Input' name='dist_1' type='number' value={props.dist_1} onChange={handleChange}/>
-                        <label htmlFor='dist_2Input'>Step and Repeat - 100 x 100 grid: </label>
-                        <input id='dist_2Input' name='dist_2' type='number' value={props.dist_2} onChange={handleChange}/>
+                        <label htmlFor='numX'>Number of Holes in X Direction:</label>
+                        <input id='numX' name='numX' type='number' value={props.numX} onChange={handleChange}/>
+                        <label htmlFor='numY'>Number of Holes in Y Direction:</label>
+                        <input id='numY' name='numY' type='number' value={props.numY} onChange={handleChange}/>
                     </div>
                 <div className="title">Rows and Columns: </div>
                     <div className="inputs">
-                        <label htmlFor='rowInput'>Rows: </label>
+                        <label htmlFor='rowInput'>Rows (Y-Dir): </label>
                         <input id='rowInput' name='row' type='number' value={props.row} onChange={handleChange}/>
-                        <label htmlFor='columnInput'>Columns: </label>
+                        <label htmlFor='dist_2Input'>Row Distance: </label>
+                        <input id='dist_2Input' name='dist_2' type='number' value={props.dist_2} onChange={handleChange}/>
+                        <label htmlFor='columnInput'>Columns (X-Dir): </label>
                         <input id='columnInput' name='column' type='number' value={props.column} onChange={handleChange}/>
-                        <label htmlFor='dist_3Input'>Distance: </label>
+                        <label htmlFor='dist_3Input'>Column Distance: </label>
                         <input id='dist_3Input' name='dist_3' type='number' value={props.dist_3} onChange={handleChange}/>
-                    </div>
-                <div className="title">Step and Repeats: </div>
-                    <div className="inputs">
-                        <label htmlFor='SRRowInput'>Rows: </label>
-                        <input id='SRRowInput' name='SRRow' type='number' value={props.SRRow} onChange={handleChange}/>
-                        <label htmlFor='SRRowDistInput'>Row Distance: </label>
-                        <input id='SRRowDistInput' name='SRRowDist' type='number' value={props.SRRowDist} onChange={handleChange}/>
-                        <label htmlFor='SRColumnInput'>Columns: </label>
-                        <input id='SRColumnInput' name='SRColumn' type='number' value={props.SRColumn} onChange={handleChange}/>
-                        <label htmlFor='SRColDistInput'>Column Distance: </label>
-                        <input id='SRColDistInput' name='SRColDist' type='number' value={props.SRColDist} onChange={handleChange}/>
                     </div>
             </div>
         </form>
@@ -81,3 +74,5 @@ const DataInput = (props) => {
 }
 
 export default DataInput;
+
+
